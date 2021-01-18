@@ -18,7 +18,10 @@ function App() {
       <Router>
         <nav>
           <div className="nav-wrapper">
-            <ul>
+            <a href="/" class="brand-logo">
+              Logo
+            </a>
+            <ul className="right">
               <li>
                 <Link to="/profile">DASHBOARD</Link>
               </li>
@@ -26,9 +29,15 @@ function App() {
                 <Link to="/admin">ADMIN</Link>
               </li>
               <li>
-                <button className="btn red waves-light lighten-2" type="button">
-                  Login
-                </button>
+                {token && (
+                  <button
+                    onClick={() => setAuthToken(null)}
+                    className="btn red waves-light lighten-2"
+                    type="button"
+                  >
+                    Logout
+                  </button>
+                )}
               </li>
             </ul>
           </div>
