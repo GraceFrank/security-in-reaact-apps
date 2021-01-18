@@ -4,14 +4,13 @@ import { AuthContext } from "./AuthContext";
 
 function ProtectedRoute({ component: Component, ...rest }) {
   const authContext = useContext(AuthContext);
-  console.log("authContext", authContext);
-  const { isLoggedIn } = authContext;
+  const { token } = authContext;
 
   return (
     <Route
       {...rest}
       render={(props) =>
-        isLoggedIn ? <Component {...props} /> : <Redirect to="/" />
+        token ? <Component {...props} /> : <Redirect to="/" />
       }
     />
   );

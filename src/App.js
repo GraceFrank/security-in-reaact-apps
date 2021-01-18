@@ -1,29 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import Login from "./Login";
 import Admin from "./Admin";
-import Dashboard from "./Dashboard";
+import Profile from "./Profile";
 import { AuthContext } from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
+  const setAuthToken = (authToken) => {
+    localStorage.setItem("token", authToken);
+    setToken(authToken);
+  };
   return (
-    <AuthContext.Provider value={{ isLoggedIn: false, token: null }}>
+    <AuthContext.Provider value={{ isLoggedIn: false, token, setAuthToken }}>
       <Router>
         <nav>
           <div className="nav-wrapper">
             <ul>
               <li>
-                <Link to="/dashboard">DASHBOARD</Link>
+                <Link to="/profile">DASHBOARD</Link>
               </li>
               <li>
                 <Link to="/admin">ADMIN</Link>
               </li>
               <li>
-                <button
-                  className="btn waves-effect red waves-light lighten-2"
-                  type="button"
-                >
+                <button className="btn red waves-light lighten-2" type="button">
                   Login
                 </button>
               </li>
@@ -31,7 +34,7 @@ function App() {
           </div>
         </nav>
         <Route exact path="/" component={Login} />
-        <ProtectedRoute path="/dashboard" component={Dashboard} />
+        <ProtectedRoute path="/profile" component={Profile} />
         <ProtectedRoute path="/admin" component={Admin} />
       </Router>
     </AuthContext.Provider>
