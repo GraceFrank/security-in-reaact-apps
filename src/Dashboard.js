@@ -1,9 +1,9 @@
 import React from "react";
 
-function Profile() {
+function Dashboard() {
   return (
     <div className="col s12 m7">
-      <h2 className="header">Welcome User</h2>
+      <h2 className="header">Dashboard</h2>
       <div className="card horizontal">
         <div className="card-stacked">
           <div className="card-content">
@@ -18,4 +18,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default Dashboard;

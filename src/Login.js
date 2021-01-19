@@ -11,7 +11,7 @@ function Login(props) {
   const [error, setError] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const authContext = useContext(AuthContext);
-  const { setAuthToken } = authContext;
+  const { setAuthUser } = authContext;
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -21,12 +21,12 @@ function Login(props) {
       .then((res) => {
         setSubmitting(false);
         if (!res.status === 200) throw new Error();
-        setAuthToken(res.data["x-auth-token"]);
-        props.history.push("/profile");
+        setAuthUser(res.data);
+        props.history.push("/dashboard");
       })
       .catch((err) => {
         setSubmitting(false);
-        console.log(err);
+        console.log("Errorrrrrrrrrr", err);
         setError("Email or password is incorrect");
       });
   };
@@ -58,7 +58,11 @@ function Login(props) {
               />
             </label>
 
-            <button className="btn red waves-light lighten-2" type="submit">
+            <button
+              className="btn red waves-light lighten-2"
+              disabled={submitting}
+              type="submit"
+            >
               {submitting ? "Loading..." : "Submit"}
             </button>
             {error && <p>{error} </p>}

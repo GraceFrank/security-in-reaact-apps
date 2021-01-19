@@ -1,37 +1,45 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import Login from "./Login";
 import Admin from "./Admin";
-import Profile from "./Profile";
+import NotFound from "./NotFound";
+import Dashboard from "./Dashboard";
 import { AuthContext } from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
+const ADMIN = "5cd15cb7869ed0915ee7555f";
+const USER = "5cd15cb7869ed0915ee75560";
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState(storedUser);
 
-  const setAuthToken = (authToken) => {
-    localStorage.setItem("token", authToken);
-    setToken(authToken);
+  const setAuthUser = (data) => {
+    localStorage.setItem("user", JSON.stringify(data));
+    setUser(data);
+  };
+  const logOut = () => {
+    setAuthUser();
+    localStorage.removeItem("user");
   };
   return (
-    <AuthContext.Provider value={{ isLoggedIn: false, token, setAuthToken }}>
+    <AuthContext.Provider value={{ isLoggedIn: false, user, setAuthUser }}>
       <Router>
         <nav>
           <div className="nav-wrapper">
-            <a href="/" class="brand-logo">
+            <a href="/" className="brand-logo">
               Logo
             </a>
             <ul className="right">
               <li>
-                <Link to="/profile">DASHBOARD</Link>
+                <Link to="/dashboard">DASHBOARD</Link>
               </li>
               <li>
                 <Link to="/admin">ADMIN</Link>
               </li>
               <li>
-                {token && (
+                {user && (
                   <button
-                    onClick={() => setAuthToken(null)}
+                    onClick={logOut}
                     className="btn red waves-light lighten-2"
                     type="button"
                   >
@@ -42,9 +50,21 @@ function App() {
             </ul>
           </div>
         </nav>
-        <Route exact path="/" component={Login} />
-        <ProtectedRoute path="/profile" component={Profile} />
-        <ProtectedRoute path="/admin" component={Admin} />
+        <Switch>
+          <Route exact path="/" component={Login} />
+
+          <ProtectedRoute
+            path="/dashboard"
+            component={Dashboard}
+            requiredRoles={[USER, ADMIN]}
+          />
+          <ProtectedRoute
+            path="/admin"
+            component={Admin}
+            requiredRoles={[ADMIN]}
+          />
+          <Route component={NotFound} />
+        </Switch>
       </Router>
     </AuthContext.Provider>
   );

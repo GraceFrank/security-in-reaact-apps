@@ -2,15 +2,21 @@ import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 
-function ProtectedRoute({ component: Component, ...rest }) {
+function ProtectedRoute({ component: Component, requiredRoles, ...rest }) {
   const authContext = useContext(AuthContext);
-  const { token } = authContext;
+  const { user } = authContext;
+  const isAuthenticated = user ? user["x-auth-token"] : false;
+  const isAuthorized = user ? requiredRoles.includes(user.data.role) : false;
 
   return (
     <Route
       {...rest}
       render={(props) =>
-        token ? <Component {...props} /> : <Redirect to="/" />
+        isAuthenticated && isAuthorized ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={{ pathname: isAuthenticated ? "/unfound" : "/" }} />
+        )
       }
     />
   );
