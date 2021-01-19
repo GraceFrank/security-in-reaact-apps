@@ -7,10 +7,7 @@ function Admin() {
       <div className="card horizontal">
         <div className="card-stacked">
           <div className="card-content">
-            <p>
-              I am a very simple card. I am good at containing small bits of
-              information.
-            </p>
+            <p>Yippe I am a an Admin</p>
           </div>
         </div>
       </div>
