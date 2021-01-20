@@ -2,8 +2,7 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "./AuthContext";
 
-const url =
-  "https://cors-anywhere.herokuapp.com/https://gdoc.herokuapp.com/api/login";
+const url = "http://localhost:4000/api/login";
 
 function Login(props) {
   const [email, setEmail] = useState("");

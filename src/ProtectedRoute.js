@@ -5,7 +5,7 @@ import { AuthContext } from "./AuthContext";
 function ProtectedRoute({ component: Component, requiredRoles, ...rest }) {
   const authContext = useContext(AuthContext);
   const { user } = authContext;
-  const isAuthenticated = user ? user["x-auth-token"] : false;
+  const isAuthenticated = user ? user["Authorization"] : false;
   const isAuthorized = user ? requiredRoles.includes(user.data.role) : false;
 
   return (

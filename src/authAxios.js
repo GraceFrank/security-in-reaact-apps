@@ -1,17 +1,17 @@
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const axiosInstance = axios.create({
-  baseURL:
-    "https://cors-anywhere.herokuapp.com/https://gdoc.herokuapp.com/api/",
+  baseURL: "http://localhost:4000/api/",
   headers: { Accept: "application/json" },
 });
 
 axiosInstance.interceptors.request.use(
   (config) => {
     const user = JSON.parse(localStorage.getItem("user"));
-    const token = user["x-auth-token"];
+    const token = user["Authorization"];
     if (token) {
-      config.headers["x-auth-token"] = token;
+      config.headers["Authorization"] = token;
     }
     return config;
   },
