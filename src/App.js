@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import Login from "./Login";
-import Admin from "./Admin";
-import NotFound from "./NotFound";
-import Dashboard from "./Dashboard";
+
 import { AuthContext } from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 const ADMIN = "5cd15cb7869ed0915ee7555f";
 const USER = "5cd15cb7869ed0915ee75560";
+
+const Admin = lazy(() => import("./Admin"));
+const NotFound = lazy(() => import("./NotFound"));
+const Dashboard = lazy(() => import("./Dashboard"));
 
 function App() {
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -50,21 +52,22 @@ function App() {
             </ul>
           </div>
         </nav>
-        <Switch>
-          <Route exact path="/" component={Login} />
-
-          <ProtectedRoute
-            path="/dashboard"
-            component={Dashboard}
-            requiredRoles={[USER, ADMIN]}
-          />
-          <ProtectedRoute
-            path="/admin"
-            component={Admin}
-            requiredRoles={[ADMIN]}
-          />
-          <Route component={NotFound} />
-        </Switch>
+        <Suspense fallback={<p>Loading...</p>}>
+          <Switch>
+            <Route exact path="/" component={Login} />
+            <ProtectedRoute
+              path="/dashboard"
+              component={Dashboard}
+              requiredRoles={[USER, ADMIN]}
+            />
+            <ProtectedRoute
+              path="/admin"
+              component={Admin}
+              requiredRoles={[ADMIN]}
+            />
+            <Route component={NotFound} />
+          </Switch>
+        </Suspense>
       </Router>
     </AuthContext.Provider>
   );
