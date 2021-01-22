@@ -5,15 +5,23 @@ function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [docs, setDocs] = useState([]);
 
-  useEffect(() => {
+  const fetchDocuments = () => {
     setLoading(true);
     axiosInstance
       .get("documents/?page=1&limit=10")
       .then((response) => {
         setLoading(false);
-        setDocs(response.data);
+        setDocs(response.data.payload);
       })
       .catch((err) => console.log("Error", err));
+  };
+
+  const createDoc = (document) => {
+    axiosInstance.post("documents");
+  };
+
+  useEffect(() => {
+    fetchDocuments();
   }, []);
 
   return (

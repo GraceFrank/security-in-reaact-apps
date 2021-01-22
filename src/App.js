@@ -1,6 +1,7 @@
 import React, { useState, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import Login from "./Login";
+import SignUp from "./Signup";
 
 import { AuthContext } from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
@@ -54,7 +55,9 @@ function App() {
         </nav>
         <Suspense fallback={<p>Loading...</p>}>
           <Switch>
+            <Route exact path="/signup" component={SignUp} />
             <Route exact path="/" component={Login} />
+
             <ProtectedRoute
               path="/dashboard"
               component={Dashboard}

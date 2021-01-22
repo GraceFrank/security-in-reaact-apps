@@ -20,12 +20,11 @@ function Login(props) {
       .then((res) => {
         setSubmitting(false);
         if (!res.status === 200) throw new Error();
-        setAuthUser(res.data);
+        setAuthUser(res.data.payload);
         props.history.push("/dashboard");
       })
       .catch((err) => {
         setSubmitting(false);
-        console.log("Errorrrrrrrrrr", err);
         setError("Email or password is incorrect");
       });
   };
@@ -68,6 +67,10 @@ function Login(props) {
           </form>
         </div>
       </div>
+      <p>
+        Don't have an account? <br />
+        <a href="/signup">Signup here</a>
+      </p>
     </div>
   );
 }
