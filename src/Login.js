@@ -1,32 +1,16 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
-import { AuthContext } from "./AuthContext";
-
-const url = "http://localhost:4000/api/login";
 
 function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const authContext = useContext(AuthContext);
-  const { setAuthUser } = authContext;
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setSubmitting(true);
-    axios
-      .post(url, { email, password })
-      .then((res) => {
-        setSubmitting(false);
-        if (!res.status === 200) throw new Error();
-        setAuthUser(res.data.payload);
-        props.history.push("/dashboard");
-      })
-      .catch((err) => {
-        setSubmitting(false);
-        setError("Email or password is incorrect");
-      });
   };
 
   return (
