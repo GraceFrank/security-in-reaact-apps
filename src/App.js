@@ -16,7 +16,7 @@ function App() {
         <nav>
           <div className="nav-wrapper">
             <a href="/" className="brand-logo">
-              Logo
+              FaunaDB
             </a>
             <ul className="right">
               <li>
