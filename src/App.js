@@ -5,8 +5,8 @@ import SignUp from "./Signup";
 
 import { AuthContext } from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
-const ADMIN = "5cd15cb7869ed0915ee7555f";
-const USER = "60084523c5f4886d21ce043b";
+const ADMIN = "admin";
+const USER = "regular";
 
 const Admin = lazy(() => import("./Admin"));
 const NotFound = lazy(() => import("./NotFound"));

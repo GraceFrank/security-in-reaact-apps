@@ -2,7 +2,7 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:4000/api/",
+  baseURL: "https://tranquil-shelf-54081.herokuapp.com/api/",
   headers: { Accept: "application/json" },
 });
 
@@ -13,6 +13,8 @@ axiosInstance.interceptors.request.use(
     if (token) {
       config.headers["Authorization"] = token;
     }
+    const csrfToken = user.csrfToken;
+    if (csrfToken) config.headers["CSRF-Token"] = csrfToken;
     return config;
   },
   (error) => {

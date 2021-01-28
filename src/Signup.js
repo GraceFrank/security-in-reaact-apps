@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { validateSignUpForm } from "./validators";
-const url = "http://localhost:4000/api/users";
+const url = "https://tranquil-shelf-54081.herokuapp.com/api/users";
 
 const SignUp = (props) => {
   const [user, setUser] = useState({
