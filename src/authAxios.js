@@ -13,8 +13,7 @@ axiosInstance.interceptors.request.use(
     if (token) {
       config.headers["Authorization"] = token;
     }
-    const csrfToken = user.csrfToken;
-    if (csrfToken) config.headers["CSRF-Token"] = csrfToken;
+
     return config;
   },
   (error) => {
@@ -27,6 +26,8 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   function (error) {
+    console.log("error", error);
+
     if (error.response.status === 401) {
       localStorage.removeItem("user");
       window.location = "/";

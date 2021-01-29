@@ -10,7 +10,7 @@ function Dashboard() {
   const fetchDocuments = () => {
     setLoading(true);
     axiosInstance
-      .get("documents/?page=1&limit=10")
+      .get("documents/?page=1&limit=10", { withCredentials: true })
       .then((response) => {
         setLoading(false);
         setDocs(response.data.payload);
@@ -21,13 +21,25 @@ function Dashboard() {
   const createDoc = (e) => {
     e.preventDefault();
     setSubmitting(true);
-    axiosInstance.post("documents", newDoc).then((res) => {
-      setSubmitting(false);
-      console.log(res);
-    });
+    axiosInstance
+      .post("documents", newDoc)
+      .then((res) => {
+        setSubmitting(false);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    const doc = { ...newDoc };
+    doc[name] = value;
+    setNewDoc(doc);
+  };
   useEffect(() => {
+    console.log("hello");
     fetchDocuments();
   }, []);
 
@@ -50,11 +62,23 @@ function Dashboard() {
               <div>
                 <label>
                   Title
-                  <input type="text" required maxLength={255} />
+                  <input
+                    type="text"
+                    required
+                    maxLength={255}
+                    name="title"
+                    onChange={handleChange}
+                  />
                 </label>
                 <label>
                   Content
-                  <input type="text" required maxLength={1000} />
+                  <input
+                    type="text"
+                    required
+                    maxLength={1000}
+                    name="content"
+                    onChange={handleChange}
+                  />
                 </label>
                 <button
                   className="btn red waves-light lighten-2"
