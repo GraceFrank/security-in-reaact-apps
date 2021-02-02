@@ -10,7 +10,7 @@ function Dashboard() {
   const fetchDocuments = () => {
     setLoading(true);
     axiosInstance
-      .get("documents/?page=1&limit=10", { withCredentials: true })
+      .get("documents/?page=1&limit=10")
       .then((response) => {
         setLoading(false);
         setDocs(response.data.payload);
